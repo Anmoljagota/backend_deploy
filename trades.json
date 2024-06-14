@@ -1,0 +1,18 @@
+[
+  {
+    "type": "sell",
+    "user_id": 243,
+    "symbol": "SWE",
+    "shares": 21,
+    "price": 5000,
+    "id": 1
+  },
+  {
+    "type": "buy",
+    "user_id": 5676,
+    "symbol": "WER",
+    "shares": 221,
+    "price": 15000,
+    "id": 2
+  }
+]
