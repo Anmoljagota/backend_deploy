@@ -24,7 +24,7 @@ app.post("/trades", (req, res) => {
   }
   try {
     let id;
-    const readingdata = fs.readFileSync("./trades.json", { encoding: "utf-8" });
+    const readingdata = fs.readFileSync("trades.json", { encoding: "utf-8" });
     const newdata = JSON.parse(readingdata);
 
     if (newdata.length === 0) {
@@ -35,7 +35,7 @@ app.post("/trades", (req, res) => {
     const savetrade = { ...req.body, id };
     newdata.push(savetrade);
     const save = JSON.stringify(newdata);
-    fs.writeFileSync("./trades.json", save, "utf-8");
+    fs.writeFileSync("trades.json", save, "utf-8");
     return res.status(200).send("data saved");
   } catch (err) {
     res.send(err);
@@ -43,7 +43,7 @@ app.post("/trades", (req, res) => {
 });
 
 app.get("/trades", (req, res) => {
-  fs.readFile("./trades.json", "utf-8", (err, data) => {
+  fs.readFile("trades.json", "utf-8", (err, data) => {
     if (err) {
       return res.status(400).send(err);
     }
@@ -52,7 +52,7 @@ app.get("/trades", (req, res) => {
 });
 
 app.get("/trades/:id", (req, res) => {
-  const readdata = fs.readFileSync("./trades.json", { encoding: "utf-8" });
+  const readdata = fs.readFileSync("trades.json", { encoding: "utf-8" });
   const data = JSON.parse(readdata);
   const { id } = req.params;
   const singletrade = data.filter((trade) => {
@@ -65,14 +65,14 @@ app.get("/trades/:id", (req, res) => {
 });
 
 app.delete("/trades/:id", (req, res) => {
-  const readdata = fs.readFileSync("./trades.json", { encoding: "utf-8" });
+  const readdata = fs.readFileSync("trades.json", { encoding: "utf-8" });
   const data = JSON.parse(readdata);
   const { id } = req.params;
   const singletrade = data.filter((trade) => {
     return trade.id != id;
   });
   const updatedData = JSON.stringify(singletrade);
-  fs.writeFile("./trades.json", updatedData, (err, data) => {
+  fs.writeFile("trades.json", updatedData, (err, data) => {
     if (err) {
       res.status(400).send(err);
     } else {
@@ -88,14 +88,14 @@ app.patch("/trades/:id", (req, res) => {
     return res.status(400).send("Provide a price to update");
   }
   try {
-    const data = fs.readFileSync("./trades.json", "utf-8");
+    const data = fs.readFileSync("trades.json", "utf-8");
     const newdata = JSON.parse(data);
     const { id } = req.params;
     const trade = newdata.find((trade) => trade.id == id);
     console.log(trade, "tradedata");
     if (trade) {
       trade.price = price;
-      fs.writeFileSync("./trades.json", JSON.stringify(newdata), "utf-8");
+      fs.writeFileSync("trades.json", JSON.stringify(newdata), "utf-8");
       return res.status(200).send("Price updated");
     } else {
       return res.status(404).send("ID not found");
